@@ -1,5 +1,14 @@
 # RealTime-messaging-app
 
+Fullstack M.E.R.N. project - Real time messaging app
+
+Real time technologie : **Pusher**
+
+Backend Stack : **MongoDB** - **Mongoose** - **JOI** - **Node.js** - **Express.js** - **JsonWebToken**
+Frontend Stack : **React.js** - **Axios** - **ESLint**
+
+Deployment -> [https://star-tup-api.herokuapp.com/api/](https://star-tup-api.herokuapp.com/api/)
+
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
