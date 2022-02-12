@@ -7,7 +7,7 @@ Real time technologie : **Pusher**
 Backend Stack : **MongoDB** - **Mongoose** - **JOI** - **Node.js** - **Express.js** - **JsonWebToken**  
 Frontend Stack : **React.js** - **Axios** - **ESLint**
 
-API Deployment -> **[https://star-tup-api.herokuapp.com/api/](https://star-tup-api.herokuapp.com/api/)**
+API Deployment : **[https://star-tup-api.herokuapp.com/api/](https://star-tup-api.herokuapp.com/api/)**
 
 <!-- # Getting Started with Create React App
 
