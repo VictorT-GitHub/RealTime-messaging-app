@@ -10,6 +10,7 @@ const ProfilPage = () => {
   const [userData, setUserData] = useState({});
   const [error, setError] = useState("");
   const [editFormState, setEditFormState] = useState(false);
+
   const [email, setEmail] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -33,24 +34,18 @@ const ProfilPage = () => {
   }, []);
 
   // -- Axios edit user Form PUT --
-  const handleEditUser = (e) => {
+  const handleEditUser = async (e) => {
     e.preventDefault();
 
-    let dirtyData = { email, firstname, lastname, birthday, motto };
-
+    // Data manipulation
+    // (data are allowed not to be sent to backend, but cannot be sent as empty string (""))
+    const dirtyData = { email, firstname, lastname, birthday, motto };
     const cleanData = {};
-
-    for (const elem in dirtyData) {
-      if (dirtyData[elem].trim().length > 0) cleanData[elem] = dirtyData[elem];
+    for (const key in dirtyData) {
+      if (dirtyData[key].trim().length > 0) cleanData[key] = dirtyData[key];
     }
 
-    // Object.entries(dirtyData).forEach((element) => {
-    //   if (element[1].trim().length > 0) cleanData[element[0]] = element[1];
-    // });
-
-    // console.log(cleanData);
-
-    axios
+    await axios
       .put(`${process.env.REACT_APP_API_URL}/user/modify`, cleanData, {
         withCredentials: true,
       })
@@ -62,6 +57,8 @@ const ProfilPage = () => {
     setLastname("");
     setBirthday("");
     setMotto("");
+
+    setEditFormState(false);
   };
 
   // -- Axios delete user DELETE --

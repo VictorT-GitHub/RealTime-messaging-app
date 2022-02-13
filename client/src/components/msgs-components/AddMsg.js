@@ -7,24 +7,25 @@ const AddMsg = ({ convID }) => {
   const [error, setError] = useState("");
 
   // -- Axios add-msg Form PUT --
-  const handleAddMsg = async (e) => {
+  const handleAddMsg = (e) => {
     e.preventDefault();
-    await axios
+    setError("");
+
+    axios
       .put(
         `${process.env.REACT_APP_API_URL}/conv/add-msg/${convID}`,
         { text },
         { withCredentials: true }
       )
-      .then((res) => console.log(res.data.messages))
+      .then(() => setText(""))
       .catch((err) => setError(err.response.data));
-    setText("");
   };
 
   // -- JSX --
   return (
     <div>
       <form action="" onSubmit={handleAddMsg}>
-        {error !== "" ? <div>{error}</div> : null}
+        {error && <div>{error}</div>}
 
         <textarea
           onChange={(e) => setText(e.target.value)}

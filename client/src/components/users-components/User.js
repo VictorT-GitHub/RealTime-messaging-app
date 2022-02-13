@@ -44,7 +44,7 @@ const User = ({ user, setConvID, setUsersState, setMsgsState }) => {
         <div>{new Date(user.birthday).toLocaleDateString()}</div>
       )}
 
-      <div>{user.motto}</div>
+      {user.motto && <div>{user.motto}</div>}
 
       <hr />
     </div>

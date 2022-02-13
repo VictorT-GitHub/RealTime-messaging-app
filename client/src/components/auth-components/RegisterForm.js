@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const RegisterForm = () => {
+const RegisterForm = ({ setLoginState, setRegisterState }) => {
   // -- useState --
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
@@ -12,30 +12,39 @@ const RegisterForm = () => {
   const [motto, setMotto] = useState("");
 
   // -- Axios Register Form POST --
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    let dirtyData = { email, password, firstname, lastname, birthday, motto };
+    // Data manipulation
+    // (motto & birthday are allowed not to be sent to backend, but cannot be sent as empty string (""))
+    const dirtyData = { email, password, firstname, lastname, birthday, motto };
     const cleanData = {};
-
-    for (const elem in dirtyData) {
-      if (dirtyData[elem].trim().length > 0) cleanData[elem] = dirtyData[elem];
+    for (const key in dirtyData) {
+      if (dirtyData[key].trim().length > 0) cleanData[key] = dirtyData[key];
     }
 
-    axios
+    // Login POST request
+    await axios
       .post(`${process.env.REACT_APP_API_URL}/auth/register`, cleanData, {
         withCredentials: true,
       })
       .then((res) => console.log(res.data))
       .catch((err) => setError(err.response.data));
 
+    // Reset inputs values
     setEmail("");
     setPassword("");
     setFirstname("");
     setLastname("");
     setBirthday("");
     setMotto("");
+
+    // Reset errors display
     setError("");
+
+    // Close register component & Open login component
+    setLoginState(true);
+    setRegisterState(false);
   };
 
   // -- JSX --

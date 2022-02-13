@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import RegisterForm from "../components/RegisterForm";
-import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/auth-components/RegisterForm";
+import LoginForm from "../components/auth-components/LoginForm";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
@@ -34,7 +34,12 @@ const HomeAuthPage = () => {
         Login
       </button>
 
-      {registerState && <RegisterForm />}
+      {registerState && (
+        <RegisterForm
+          setLoginState={setLoginState}
+          setRegisterState={setRegisterState}
+        />
+      )}
       {loginState && <LoginForm />}
 
       <hr />

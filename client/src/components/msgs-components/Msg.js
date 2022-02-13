@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Msg = ({ msg, userid, convID }) => {
+  // -- Data manipulation --
   const msgDate = new Date(msg.date).toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "2-digit",
@@ -19,6 +20,7 @@ const Msg = ({ msg, userid, convID }) => {
   // -- Axios modify-msg Form PUT --
   const handleEditMsg = (e) => {
     e.preventDefault();
+    setError("");
 
     axios
       .put(
@@ -26,11 +28,10 @@ const Msg = ({ msg, userid, convID }) => {
         { text },
         { withCredentials: true }
       )
-      .then((res) => console.log(res.data.messages))
+      .then(() => settext(""))
       .catch((err) => setError(err.response.data));
 
     setEditFormState(false);
-    settext("");
   };
 
   // -- Axios delete-msg PUT --
@@ -41,7 +42,6 @@ const Msg = ({ msg, userid, convID }) => {
         {},
         { withCredentials: true }
       )
-      .then((res) => console.log(res.data.messages))
       .catch((err) => setError(err.response.data));
   };
 
@@ -55,17 +55,26 @@ const Msg = ({ msg, userid, convID }) => {
         </div>
       )}
 
+      {/* Message date & message text */}
       <div>
         [{msgDate}] {msg.text}
       </div>
 
-      <button onClick={() => setEditFormState(!editFormState)}>
-        Edit your msg
-      </button>
-      <button onClick={handleDeleteMsg}>Delete your msg</button>
+      {/* User can only modify & delete their own msgs */}
+      {userid === msg.authorID._id && (
+        <div>
+          <button onClick={() => setEditFormState(!editFormState)}>
+            Edit your msg
+          </button>
 
-      {error !== "" ? <div>{error}</div> : null}
+          <button onClick={handleDeleteMsg}>Delete your msg</button>
+        </div>
+      )}
 
+      {/* Errors display */}
+      {error && <div>{error}</div>}
+
+      {/* Modify message form */}
       {editFormState && (
         <form action="" onSubmit={handleEditMsg}>
           <textarea

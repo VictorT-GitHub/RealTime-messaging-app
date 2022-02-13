@@ -41,7 +41,7 @@ const ConvMsgs = ({ convID, setConvsState, setUsersState, setMsgsState }) => {
       .catch((err) => setError(err.response.data));
   }, []);
 
-  // -- PUSHER msgs --
+  // -- PUSHER msgs -- (add-modify-delete)
   useEffect(() => {
     const pusher = new Pusher("286aedadfa63e4354460", {
       cluster: "eu",

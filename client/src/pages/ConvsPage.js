@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import ConvMsgs from "../components/ConvMsgs";
-import UserConvs from "../components/UserConvs";
+import UserConvs from "../components/convs-components/UserConvs";
+import ConvMsgs from "../components/msgs-components/ConvMsgs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 

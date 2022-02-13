@@ -44,7 +44,6 @@ const Header = () => {
         <button onClick={logout}>LogOut</button>
 
         {userdata && <span> {userdata.email}</span>}
-        {error && <span> {error}</span>}
       </nav>
 
       <hr />

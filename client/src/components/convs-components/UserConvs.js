@@ -45,7 +45,6 @@ const UserConvs = ({ setConvID, setConvsState, setMsgsState }) => {
     const channel = pusher.subscribe("convs");
     channel.bind("inserted", (data) => {
       setPusherData(data);
-      console.log(data);
     });
 
     // new last message

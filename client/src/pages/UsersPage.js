@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import AllUsers from "../components/AllUsers";
-import ConvMsgs from "../components/ConvMsgs";
+import AllUsers from "../components/users-components/AllUsers";
+import ConvMsgs from "../components/msgs-components/ConvMsgs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
@@ -23,6 +23,7 @@ const UsersPage = () => {
           setMsgsState={setMsgsState}
         />
       )}
+
       {msgsState && (
         <ConvMsgs
           convID={convID}
