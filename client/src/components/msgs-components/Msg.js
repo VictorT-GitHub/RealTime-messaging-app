@@ -48,11 +48,13 @@ const Msg = ({ msg, userid, convID }) => {
   // -- JSX --
   return (
     <div>
-      {/* Need a condition in case this author has been deleted */}
-      {msg.authorID && (
+      {/* Need msg.authorID condition in case this author has been deleted */}
+      {msg.authorID ? (
         <div>
-          {userid === msg.authorID._id ? "Me :" : `${msg.authorID.firstname} :`}
+          {msg.authorID._id === userid ? "Me :" : `${msg.authorID.firstname} :`}
         </div>
+      ) : (
+        "-deleted_account-"
       )}
 
       {/* Message date & message text */}
@@ -60,8 +62,9 @@ const Msg = ({ msg, userid, convID }) => {
         [{msgDate}] {msg.text}
       </div>
 
+      {/* Need msg.authorID condition in case this author has been deleted */}
       {/* User can only modify & delete their own msgs */}
-      {userid === msg.authorID._id && (
+      {msg.authorID && msg.authorID._id === userid && (
         <div>
           <button onClick={() => setEditFormState(!editFormState)}>
             Edit your msg

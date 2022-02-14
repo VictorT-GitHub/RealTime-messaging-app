@@ -6,15 +6,26 @@ import UsersPage from "../pages/UsersPage";
 import ConvsPage from "../pages/ConvsPage";
 import ProfilPage from "../pages/ProfilPage";
 
-const Router = () => {
+const Router = ({ pusherData }) => {
   // -- JSX --
   return (
     <div>
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<HomeAuthPage />} />
-          <Route path="/all-users" exact element={<UsersPage />} />
-          <Route path="/myconversations" exact element={<ConvsPage />} />
+
+          <Route
+            path="/all-users"
+            exact
+            element={<UsersPage pusherData={pusherData} />}
+          />
+
+          <Route
+            path="/myconversations"
+            exact
+            element={<ConvsPage pusherData={pusherData} />}
+          />
+
           <Route path="/myprofil" exact element={<ProfilPage />} />
         </Routes>
       </BrowserRouter>

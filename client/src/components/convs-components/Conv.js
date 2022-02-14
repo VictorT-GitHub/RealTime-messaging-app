@@ -15,7 +15,7 @@ const Conv = ({ conv, userid, setConvID, setMsgsState, setConvsState }) => {
   return (
     <div onClick={handleOnClick}>
       {/* Need a condition in case friend user has been deleted */}
-      <div>{friendData && friendData.firstname}</div>
+      <div>{friendData ? friendData.firstname : "-deleted_account-"}</div>
 
       {conv.messages.length > 0 && (
         <div>

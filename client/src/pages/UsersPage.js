@@ -5,7 +5,7 @@ import ConvMsgs from "../components/msgs-components/ConvMsgs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-const UsersPage = () => {
+const UsersPage = ({ pusherData }) => {
   // -- useState --
   const [usersState, setUsersState] = useState(true);
   const [msgsState, setMsgsState] = useState(false);
@@ -29,6 +29,7 @@ const UsersPage = () => {
           convID={convID}
           setUsersState={setUsersState}
           setMsgsState={setMsgsState}
+          pusherData={pusherData}
         />
       )}
 

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pusher from "pusher-js";
 
 import Msg from "./Msg";
 import AddMsg from "./AddMsg";
 
-const ConvMsgs = ({ convID, setConvsState, setUsersState, setMsgsState }) => {
+const ConvMsgs = ({
+  convID,
+  setConvsState,
+  setUsersState,
+  setMsgsState,
+  pusherData,
+}) => {
   // BACK BTN
   const handleBackBtn = () => {
     setMsgsState(false);
@@ -15,22 +20,9 @@ const ConvMsgs = ({ convID, setConvsState, setUsersState, setMsgsState }) => {
   // -- useState --
   const [msgsArray, setMsgsArray] = useState([]);
   const [userid, setuserid] = useState("");
-  const [pusherData, setPusherData] = useState("");
   const [error, setError] = useState("");
 
   // -- useEffect --
-  // Axios all conv-msgs GET
-  useEffect(() => {
-    if (convID !== "") {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/conv/one/${convID}`, {
-          withCredentials: true,
-        })
-        .then((res) => setMsgsArray(res.data.messages))
-        .catch((err) => setError(err.response.data));
-    }
-  }, [convID, pusherData]);
-
   // Axios user id GET
   useEffect(() => {
     axios
@@ -41,18 +33,33 @@ const ConvMsgs = ({ convID, setConvsState, setUsersState, setMsgsState }) => {
       .catch((err) => setError(err.response.data));
   }, []);
 
-  // -- PUSHER msgs -- (add-modify-delete)
+  // Axios all conv-msgs GET
+  // (fetch normal : ouverture de la page)
   useEffect(() => {
-    const pusher = new Pusher("286aedadfa63e4354460", {
-      cluster: "eu",
-    });
+    if (convID !== "") {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/conv/one/${convID}`, {
+          withCredentials: true,
+        })
+        .then((res) => setMsgsArray(res.data.messages))
+        .catch((err) => setError(err.response.data));
+    }
+  }, [convID]);
 
-    const channel = pusher.subscribe("msgs");
-
-    channel.bind("updated", (data) => {
-      setPusherData(data);
-    });
-  }, []);
+  // PUSHER Axios all conv-msgs GET
+  // (pusher fetch : real time)
+  useEffect(() => {
+    // fetch only if the current user have acces to the modifed conversation
+    // pusherData.documentKey._id === id of the modifed conversation
+    if (pusherData && pusherData.documentKey._id === convID) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/conv/one/${convID}`, {
+          withCredentials: true,
+        })
+        .then((res) => setMsgsArray(res.data.messages))
+        .catch((err) => setError(err.response.data));
+    }
+  }, [pusherData]);
 
   // -- JSX --
   return (

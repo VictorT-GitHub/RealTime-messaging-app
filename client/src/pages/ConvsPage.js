@@ -5,7 +5,7 @@ import ConvMsgs from "../components/msgs-components/ConvMsgs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-const ConvsPage = () => {
+const ConvsPage = ({ pusherData }) => {
   // -- useState --
   const [convsState, setConvsState] = useState(true);
   const [msgsState, setMsgsState] = useState(false);
@@ -21,6 +21,7 @@ const ConvsPage = () => {
           setConvID={setConvID}
           setConvsState={setConvsState}
           setMsgsState={setMsgsState}
+          pusherData={pusherData}
         />
       )}
 
@@ -29,6 +30,7 @@ const ConvsPage = () => {
           convID={convID}
           setConvsState={setConvsState}
           setMsgsState={setMsgsState}
+          pusherData={pusherData}
         />
       )}
 

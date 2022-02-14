@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Pusher from "pusher-js";
 
 import Conv from "./Conv";
 
-const UserConvs = ({ setConvID, setConvsState, setMsgsState }) => {
+const UserConvs = ({ setConvID, setConvsState, setMsgsState, pusherData }) => {
   // -- useState --
   const [convsArray, setConvsArray] = useState([]);
   const [userid, setuserid] = useState("");
-  const [pusherData, setPusherData] = useState("");
   const [error, setError] = useState("");
 
   // -- useEffect --
-  // Axios current-user-id GET
+  // Axios user id GET
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/user/one`, {
@@ -22,37 +20,44 @@ const UserConvs = ({ setConvID, setConvsState, setMsgsState }) => {
       .catch((err) => setError(err.response.data));
   }, []);
 
-  // Axios all user-convs GET
+  // Axios all conversations GET
+  // (fetch normal : ouverture de la page)
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/conv/all`, {
         withCredentials: true,
       })
-      .then((res) => {
-        setConvsArray(res.data);
-        console.log(res.data);
-      })
+      .then((res) => setConvsArray(res.data))
       .catch((err) => setError(err.response.data));
-  }, [pusherData]);
-
-  // -- PUSHER convs --
-  useEffect(() => {
-    const pusher = new Pusher("286aedadfa63e4354460", {
-      cluster: "eu",
-    });
-
-    // new conv
-    const channel = pusher.subscribe("convs");
-    channel.bind("inserted", (data) => {
-      setPusherData(data);
-    });
-
-    // new last message
-    const channelMsg = pusher.subscribe("msgs");
-    channelMsg.bind("updated", (data) => {
-      setPusherData(data);
-    });
   }, []);
+
+  // PUSHER Axios one conversation GET
+  // (pusher fetch : real time)
+  useEffect(() => {
+    // fetch only if the current user have acces to the modifed conversation
+    // pusherData.documentKey._id === id of the modifed conversation
+    if (
+      (pusherData &&
+        convsArray.some((conv) => conv._id === pusherData.documentKey._id)) ||
+      (pusherData.fullDocument &&
+        pusherData.fullDocument.usersID.includes(userid))
+    ) {
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/conv/one/${pusherData.documentKey._id}`,
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          const newConvsArray = convsArray.filter(
+            (conv) => conv._id !== res.data._id
+          );
+          setConvsArray([...newConvsArray, res.data]);
+        })
+        .catch((err) => setError(err.response.data));
+    }
+  }, [pusherData]);
 
   // -- JSX --
   return (
