@@ -13,9 +13,7 @@ const User = ({ user, setConvID, setUsersState, setMsgsState }) => {
         .post(
           `${process.env.REACT_APP_API_URL}/conv/add`,
           { userID },
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         )
         // Open the new conversation after creation
         .then((res) => {
@@ -25,7 +23,7 @@ const User = ({ user, setConvID, setUsersState, setMsgsState }) => {
         })
         // If conversations already exist, open this conversation
         .catch((err) => {
-          console.log(err.response.data);
+          // console.log(err.response.data);
           setConvID(err.response.data.slice(-24));
           setMsgsState(true);
           setUsersState(false);

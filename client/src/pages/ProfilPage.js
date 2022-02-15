@@ -28,9 +28,7 @@ const ProfilPage = () => {
         withCredentials: true,
       })
       .then((res) => setUserData(res.data))
-      .catch((err) =>
-        err.response.data ? setError(err.response.data) : console.log(err)
-      );
+      .catch((err) => err.response.data && setError(err.response.data));
   }, []);
 
   // -- Axios edit user Form PUT --

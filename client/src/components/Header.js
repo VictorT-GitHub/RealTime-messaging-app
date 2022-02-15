@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   // -- useState --
   const [userdata, setuserdata] = useState("");
-  const [error, setError] = useState("");
 
   // -- useNavigate --
   const navigate = useNavigate();
@@ -16,8 +15,7 @@ const Header = () => {
       .get(`${process.env.REACT_APP_API_URL}/auth/logout`, {
         withCredentials: true,
       })
-      .then(() => navigate("/"))
-      .catch((err) => console.log(err));
+      .then(() => navigate("/"));
   };
 
   // -- useEffect --
@@ -27,8 +25,7 @@ const Header = () => {
       .get(`${process.env.REACT_APP_API_URL}/user/one`, {
         withCredentials: true,
       })
-      .then((res) => setuserdata(res.data))
-      .catch((err) => setError(err.response.data));
+      .then((res) => setuserdata(res.data));
   }, []);
 
   return (
