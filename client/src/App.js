@@ -11,8 +11,8 @@ const App = () => {
 
   // -- PUSHER convs & msgs --
   useEffect(() => {
-    const pusher = new Pusher("286aedadfa63e4354460", {
-      cluster: "eu",
+    const pusher = new Pusher(process.env.PUSHER_KEY, {
+      cluster: process.env.PUSHER_CLUSTER,
     });
 
     // conversations (add)

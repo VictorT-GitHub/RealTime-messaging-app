@@ -31,10 +31,10 @@ mongoose.connect(process.env.DB_URI, (err) => {
 // -- PUSHER --
 // Config
 const pusher = new Pusher({
-  appId: "1340246",
-  key: "286aedadfa63e4354460",
-  secret: "52e2f6e509c61efa616c",
-  cluster: "eu",
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   useTLS: true,
 });
 
