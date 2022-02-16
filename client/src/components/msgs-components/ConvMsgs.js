@@ -49,9 +49,9 @@ const ConvMsgs = ({
   // PUSHER Axios all conv-msgs GET
   // (pusher fetch : real time)
   useEffect(() => {
-    // fetch only if the current user have acces to the modifed conversation
-    // pusherData.documentKey._id === id of the modifed conversation
-    if (pusherData && pusherData.documentKey._id === convID) {
+    // fetch only if the current user have acces to the conversation
+    // pusherData.docID === id of the modifed conversation
+    if (pusherData && pusherData.docID === convID) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/conv/one/${convID}`, {
           withCredentials: true,

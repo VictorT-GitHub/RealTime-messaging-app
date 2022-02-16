@@ -34,21 +34,18 @@ const UserConvs = ({ setConvID, setConvsState, setMsgsState, pusherData }) => {
   // PUSHER Axios one conversation GET
   // (pusher fetch : real time)
   useEffect(() => {
-    // fetch only if the current user have acces to the modifed conversation
-    // pusherData.documentKey._id === id of the modifed conversation
+    // fetch only if the current user have acces to the conversation
+    // pusherData.docID === id of the modifed conversation
+    // pusherData.usersID === ids of the owners of the conversation
     if (
       (pusherData &&
-        convsArray.some((conv) => conv._id === pusherData.documentKey._id)) ||
-      (pusherData.fullDocument &&
-        pusherData.fullDocument.usersID.includes(userid))
+        convsArray.some((conv) => conv._id === pusherData.docID)) ||
+      (pusherData.usersID && pusherData.usersID.includes(userid))
     ) {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/conv/one/${pusherData.documentKey._id}`,
-          {
-            withCredentials: true,
-          }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/conv/one/${pusherData.docID}`, {
+          withCredentials: true,
+        })
         .then((res) => {
           const newConvsArray = convsArray.filter(
             (conv) => conv._id !== res.data._id

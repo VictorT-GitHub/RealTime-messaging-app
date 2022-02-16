@@ -45,16 +45,21 @@ mongoose.connection.once("open", () => {
   const changeStream = convCollection.watch();
 
   changeStream.on("change", (change) => {
-    console.log(change);
-
     // (Put) Add/edit/delete message
     if (change.operationType === "update") {
-      pusher.trigger("msgs", "updated", change.clusterTime);
+      pusher.trigger("msgs", "updated", {
+        timestamp: change.clusterTime,
+        documentID: change.documentKey._id,
+      });
     }
 
     // Post new conversation
     if (change.operationType === "insert") {
-      pusher.trigger("convs", "inserted", change.clusterTime);
+      pusher.trigger("convs", "inserted", {
+        timestamp: change.clusterTime,
+        documentID: change.documentKey._id,
+        usersID: change.fullDocument.usersID,
+      });
     }
   });
 });
