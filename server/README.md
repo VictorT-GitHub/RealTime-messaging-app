@@ -1,6 +1,6 @@
 # API Documentation
 
-API Deployment -> **[https://star-tup-api.herokuapp.com/api/](https://star-tup-api.herokuapp.com/api/)**
+API Deployment -> ~~**://star-tup-api.herokuapp.com/api/**~~ (Heroku is not free anymore. Coming soon on another platform. 🚀)
 
 ### API Homepage
 
